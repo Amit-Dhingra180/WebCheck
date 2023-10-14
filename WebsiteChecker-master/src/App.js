@@ -74,6 +74,15 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
+
+  const handleRemoveButtonClick = (urlToRemove) => {
+    const updatedData = urlList.filter((urlStatus) => urlStatus.url !== urlToRemove);
+
+    setUrlList(updatedData);
+    localStorage.setItem('urlData', JSON.stringify(updatedData));
+  };
+
+
   return (
     <div>
     <h1 className='text-4xl font-semibold text-center my-2'>Website Checker</h1>
@@ -97,7 +106,10 @@ function App() {
       <div className='mt-8'>
       {urlList.map((urlStatus, index) => (
         <div key={index} className='flex mt-4 justify-between text-lg font-semibold'>
-          <p>{urlStatus.url}</p>
+          <div>
+            <p>{urlStatus.url}</p>
+            <button onClick={() => handleRemoveButtonClick(urlStatus.url)} className='bg-black text-white p-1 text-xs mt-2'>Remove</button>
+          </div>    
           <div className={urlStatus.status === 200 ? 'w-8 h-8 bg-green-500' : 'w-8 h-8 bg-red-500'}></div>
         </div>
       ))}
